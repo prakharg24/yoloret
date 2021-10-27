@@ -1,4 +1,4 @@
-Complete source code for training our YOLO RED model.
+_Note : Certain parts of the repo are still under development. We are also going to upload more trained models and on-device execution code for easy replication soon._
 
 # Requirements
 
