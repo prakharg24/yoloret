@@ -2,7 +2,7 @@ _Note : Certain parts of the repo are still under development. We are also going
 
 # Requirements
 
-Please check [requirements.txt](requirements.txt) for the major library requirements and
+Please check [requirements.txt](requirements.txt) for the major library requirements.
 
 # Preparing Dataset
 ## Download VOC Dataset
