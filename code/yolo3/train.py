@@ -62,7 +62,7 @@ class AdvLossModel(tf.keras.Model):
                         "Training data",
                         tf.cast(batch[0] * 255, tf.uint8),
                         max_outputs=8)
-            per_replica_loss = self._distribution_strategy.experimental_run_v2(
+            per_replica_loss = self._distribution_strategy.run(
                 self._train_step if step else self._val_step, args=(batch,))
             total_loss += self._distribution_strategy.reduce(
                 tf.distribute.ReduceOp.SUM, per_replica_loss,
