@@ -1,4 +1,21 @@
-# YOLO-ReT
+<div align="center">
+
+[![stars - badge-generator](https://img.shields.io/github/stars/prakharg24/yoloret)](https://github.com/prakharg24/yoloret)
+[![forks - badge-generator](https://img.shields.io/github/forks/prakharg24/yoloret)](https://github.com/prakharg24/yoloret)
+[![License](https://img.shields.io/badge/License-MIT-red)](#license)
+[![issues](https://img.shields.io/github/issues/prakharg24/yoloret)](https://github.com/prakharg24/yoloret/issues)
+[![issues closed](https://img.shields.io/github/issues-closed/prakharg24/yoloret)](https://github.com/prakharg24/yoloret/issues)
+[![last commit](https://img.shields.io/github/last-commit/prakharg24/yoloret)](https://github.com/prakharg24/yoloret)
+
+</div>
+
+## YOLO-ReT: Towards High Accuracy Real-time Object Detection on Edge GPUs
+
+
+  
+## License
+
+Released under [MIT](/LICENSE) by [@MichaelCurrin](https://github.com/MichaelCurrin).
 
 This is the original implementation of the paper: **YOLO-ReT: Towards High Accuracy Real-time Object Detection on Edge GPUs**. Prakhar Ganesh, Yao Chen, Yin Yang, Deming Chen, Marianne Winslett, **WACV 2022** [\[Arxiv\]](https://arxiv.org/abs/2110.13713) \[Camera-Ready coming soon\]
 
