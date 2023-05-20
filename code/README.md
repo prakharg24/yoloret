@@ -85,3 +85,7 @@ python main.py --mode=MAP --model=checkpoints/efficientnetb3_416_coco.h5  --test
 ```
 python main.py --mode=MAP --model=checkpoints/efficientnetb3_224_coco.h5  --test_dataset=coco_test_4952.txt --backbone=EFFICIENTNETB3 --classes_path=model_data/coco_classes.txt --input_size=224 --input_size=224
 ```
+
+## Acknowledgement
+
+This repository is adapted from https://github.com/fsx950223/mobilenetv2-yolov3
