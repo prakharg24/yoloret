@@ -11,8 +11,8 @@
 
 ### YOLO-ReT: Towards High Accuracy Real-time Object Detection on Edge GPUs
 
-This is the original implementation of the paper: **YOLO-ReT: Towards High Accuracy Real-time Object Detection on Edge GPUs**. \
-Prakhar Ganesh, Yao Chen, Yin Yang, Deming Chen, Marianne Winslett, **WACV 2022** [\[Paper\]](https://openaccess.thecvf.com/content/WACV2022/html/Ganesh_YOLO-ReT_Towards_High_Accuracy_Real-Time_Object_Detection_on_Edge_GPUs_WACV_2022_paper.html) [\[PDF\]](https://prakharg24.github.io/files/yolo_ret.pdf) [\[Slides\]](https://prakharg24.github.io/files/yolo_ret_slides.pdf) [\[Poster\]](https://prakharg24.github.io/files/yolo_ret_poster.pdf) [\[Video\]](https://drive.google.com/file/d/18j-OdX7ChcvLbNW0jO-qGbODRqZmDiX9/view)
+Prakhar Ganesh, Yao Chen, Yin Yang, Deming Chen, Marianne Winslett, **WACV 2022** \
+[\[Paper\]](https://openaccess.thecvf.com/content/WACV2022/html/Ganesh_YOLO-ReT_Towards_High_Accuracy_Real-Time_Object_Detection_on_Edge_GPUs_WACV_2022_paper.html) [\[PDF\]](https://prakharg24.github.io/files/yolo_ret.pdf) [\[Slides\]](https://prakharg24.github.io/files/yolo_ret_slides.pdf) [\[Poster\]](https://prakharg24.github.io/files/yolo_ret_poster.pdf) [\[Video\]](https://drive.google.com/file/d/18j-OdX7ChcvLbNW0jO-qGbODRqZmDiX9/view)
 
 ### Setup and Reproducibility
 
@@ -20,10 +20,10 @@ Please refer to the [README](code/README.md) inside the folder `code` for detail
 
 ### Citation
 
-If you find this paper and code useful, please consider citing our work.
+If you find our paper and/or code useful, please consider citing our work.
 
 ```
-@inproceedings{ganesh2021yoloret,
+@inproceedings{ganesh2022yoloret,
   title={{YOLO-ReT}: Towards High Accuracy Real-time Object Detection on Edge {GPU}s},
   author={Ganesh, Prakhar and Chen, Yao and Yang, Yin and Chen, Deming and Winslett, Marianne},
   booktitle={IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
@@ -31,7 +31,3 @@ If you find this paper and code useful, please consider citing our work.
   organization={IEEE}
 }
 ```
-
-### Acknowledgement
-
-This repository is adapted from https://github.com/fsx950223/mobilenetv2-yolov3
