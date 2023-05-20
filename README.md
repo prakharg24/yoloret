@@ -14,7 +14,7 @@
 Prakhar Ganesh, Yao Chen, Yin Yang, Deming Chen, Marianne Winslett, **WACV 2022** \
 [\[Paper\]](https://openaccess.thecvf.com/content/WACV2022/html/Ganesh_YOLO-ReT_Towards_High_Accuracy_Real-Time_Object_Detection_on_Edge_GPUs_WACV_2022_paper.html) [\[PDF\]](https://prakharg24.github.io/files/yolo_ret.pdf) [\[Slides\]](https://prakharg24.github.io/files/yolo_ret_slides.pdf) [\[Poster\]](https://prakharg24.github.io/files/yolo_ret_poster.pdf) [\[Video\]](https://drive.google.com/file/d/18j-OdX7ChcvLbNW0jO-qGbODRqZmDiX9/view)
 
-<img src="https://github.com/prakharg24/yoloret/assets/20368770/75d6ee9f-b5d4-4d96-b37a-66551c466ec3" width="800" height="300">
+![YOLO-ReT Architecture](https://github.com/prakharg24/yoloret/assets/20368770/75d6ee9f-b5d4-4d96-b37a-66551c466ec3)
 
 ### Setup and Reproducibility
 
