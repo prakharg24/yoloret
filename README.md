@@ -13,11 +13,11 @@
 
 
   
-## License
+<!-- ## License
 
 Released under [MIT](/LICENSE) by [@MichaelCurrin](https://github.com/MichaelCurrin).
 
-This is the original implementation of the paper: **YOLO-ReT: Towards High Accuracy Real-time Object Detection on Edge GPUs**. Prakhar Ganesh, Yao Chen, Yin Yang, Deming Chen, Marianne Winslett, **WACV 2022** [\[Arxiv\]](https://arxiv.org/abs/2110.13713) \[Camera-Ready coming soon\]
+This is the original implementation of the paper: **YOLO-ReT: Towards High Accuracy Real-time Object Detection on Edge GPUs**. Prakhar Ganesh, Yao Chen, Yin Yang, Deming Chen, Marianne Winslett, **WACV 2022** [\[Arxiv\]](https://arxiv.org/abs/2110.13713) \[Camera-Ready coming soon\] -->
 
 ## Citation
 
