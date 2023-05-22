@@ -1,6 +1,18 @@
 _Note : Certain parts of the repo are still under development. We are also going to upload more trained models and on-device execution code for easy replication soon._
 
-# Requirements
+# Installation
+
+Setup a tensorflow environment,
+
+```
+conda create --name yoloret tensorflow-gpu==2.1.0
+```
+
+Install necessary packages
+
+```
+pip install tensorflow_model_optimization neural_structured_learning matplotlib opencv-python
+```
 
 Please check [requirements.txt](requirements.txt) for the major library requirements.
 

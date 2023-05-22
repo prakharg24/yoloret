@@ -2,7 +2,6 @@
 Retrain the YOLO model for your own dataset.
 """
 import tensorflow as tf
-import tensorflow_model_optimization as tfmot
 import datetime
 from yolo3.model import YoloEval, YoloLoss, yolov3_body
 from yolo3.efficientnet import EfficientConv2DKernelInitializer, Swish, Mean
@@ -13,7 +12,6 @@ from yolo3.utils import get_anchors, get_classes, ModelFactory
 from yolo3.train import AdvLossModel
 import os
 import numpy as np
-import neural_structured_learning as nsl
 import matplotlib.pyplot as plt
 
 AUTOTUNE = tf.data.experimental.AUTOTUNE
@@ -109,8 +107,6 @@ def train(FLAGS):
 
     loss = [YoloLoss(idx, anchors, num_scales, print_loss=False) for idx in range(num_scales)]
 
-    adv_config = nsl.configs.make_adv_reg_config(
-        multiplier=0.2, adv_step_size=0.2, adv_grad_norm='infinity')
     train_dataset = strategy.experimental_distribute_dataset(train_dataset_org)
     val_dataset = strategy.experimental_distribute_dataset(val_dataset_org)
 
