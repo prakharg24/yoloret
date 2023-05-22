@@ -3,6 +3,7 @@
 - [Training a Model](#training-a-model)
 - [Evaluating a Model](#evaluating-a-model)
 
+---------------
 ## Installation
 
 Setup a tensorflow environment,
@@ -18,6 +19,7 @@ Install additional packages
 conda install tensorflow_model_optimization neural_structured_learning matplotlib opencv-python
 ```
 
+--------------------
 ## Preparing Dataset
 ### VOC Dataset
 Download and extract the VOC 2007 and 2012 dataset as shown below
@@ -45,12 +47,13 @@ We have provided label lists in the folder `data_paths` which can be directly ad
 python update_coco_path.py "/path/to/COCO/dataset/"
 ```
 
+-------------------
 ## Training a Model
-### Step 1 : Train with frozen transfer learning weights
+**Step 1 : Train with frozen transfer learning weights**
 ```
 python main.py --mode=TRAIN --train_dataset=<train list> --val_dataset=<val list> --freeze --classes_path=<class names list> --backbone=<MOBILENETV2x75|MOBILENETV2x14|EFFICIENTNETB3>
 ```
-### Step 2 : Fine tune complete model
+**Step 2 : Fine tune the complete model**
 ```
 python main.py --mode=TRAIN --train_dataset=<train list> --val_dataset=<val list> --train_unfreeze=<last checkpoint> --classes_path=<class names list> --backbone=<MOBILENETV2x75|MOBILENETV2x14|EFFICIENTNETB3>
 ```
@@ -61,6 +64,7 @@ python main.py --mode=TRAIN --train_dataset=voc_train_14910.txt --val_dataset=vo
 python main.py --mode=TRAIN --train_dataset=voc_train_14910.txt --val_dataset=voc_val_1641.txt --train_unfreeze=<last checkpoint> --classes_path=model_data/voc_classes.txt --backbone=EFFICIENTNETB3
 ```
 
+----------------------
 ## Evaluating a Model:
 A trained detection model can be evaluated using the following code,
 ```
@@ -89,6 +93,7 @@ python main.py --mode=MAP --model=checkpoints/efficientnetb3_416_coco.h5  --test
 python main.py --mode=MAP --model=checkpoints/efficientnetb3_224_coco.h5  --test_dataset=coco_test_4952.txt --backbone=EFFICIENTNETB3 --classes_path=model_data/coco_classes.txt --input_size=224 --input_size=224
 ```
 
+------------------
 ## Acknowledgement
 
 This repository is adapted from https://github.com/fsx950223/mobilenetv2-yolov3
