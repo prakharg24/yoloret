@@ -2,7 +2,7 @@
 
 [![stars - badge-generator](https://img.shields.io/github/stars/prakharg24/yoloret)](https://github.com/prakharg24/yoloret)
 [![forks - badge-generator](https://img.shields.io/github/forks/prakharg24/yoloret)](https://github.com/prakharg24/yoloret)
-[![License](https://img.shields.io/badge/License-MIT-red)](https://github.com/prakharg24/yoloret/LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-red)](https://github.com/prakharg24/yoloret/blob/main/LICENSE)
 [![issues](https://img.shields.io/github/issues/prakharg24/yoloret)](https://github.com/prakharg24/yoloret/issues)
 [![issues closed](https://img.shields.io/github/issues-closed/prakharg24/yoloret)](https://github.com/prakharg24/yoloret/issues)
 [![last commit](https://img.shields.io/github/last-commit/prakharg24/yoloret)](https://github.com/prakharg24/yoloret)
