@@ -63,7 +63,7 @@ flags.DEFINE_enum_class(
     "Select exec mode, One of {'TRAIN','TRAIN_BACKBONE','IMAGE','VIDEO','TFLITE','SERVING','MAP','PRUNE'}"
 )
 
-flags.DEFINE_multi_integer('gpus', default=[0,1], help="Specific gpu indexes to run")
+flags.DEFINE_multi_integer('gpus', default=[0], help="Specific gpu indexes to run")
 flags.DEFINE_string('train_dataset',
                     default='/usr/local/srv/tfrecords/train/*2007*.tfrecords',
                     help="Dataset glob for train")

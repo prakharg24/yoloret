@@ -3,8 +3,6 @@
 from yolo3.enums import BOX_LOSS
 import numpy as np
 import tensorflow as tf
-import tensorflow_model_optimization as tfmot
-# import tensorflow_addons as tfa
 import tensorflow.keras.backend as K
 from typing import List, Tuple
 from yolo3.utils import compose,do_giou_calculate
@@ -222,7 +220,6 @@ def yolov3_body(inputs, model_name, num_anchors, **kwargs):
     for i, l1 in enumerate(backbone.layers):
         backbone.layers[i].set_weights(backbone_transfer.layers[i].get_weights())
         backbone.layers[i].trainable = False
-        print(backbone.layers[i].name)
         if(backbone.layers[i].name==end_layer):
             break
 
@@ -254,12 +251,8 @@ def yolov3_body(inputs, model_name, num_anchors, **kwargs):
         tf.keras.layers.ReLU(6., name='block_20_relu6'))(x)
 
     if(fpn):
-        if(quantize):
-            x = tfmot.quantization.keras.quantize_annotate_layer(tf.keras.layers.UpSampling2D(), quantize_config=quantize_noop)(x)
-            x = tfmot.quantization.keras.quantize_annotate_layer(tf.keras.layers.Concatenate(), quantize_config=quantize_noop)([x, b2])
-        else:
-            x = tf.keras.layers.UpSampling2D()(x)
-            x = tf.keras.layers.Concatenate()([x, b2])
+        x = tf.keras.layers.UpSampling2D()(x)
+        x = tf.keras.layers.Concatenate()([x, b2])
     else:
         x = b2
     block_args = block_args._replace(input_filters=256)
@@ -278,12 +271,8 @@ def yolov3_body(inputs, model_name, num_anchors, **kwargs):
         tf.keras.layers.ReLU(6., name='block_24_relu6'))(x)
 
     if(fpn):
-        if(quantize):
-            x = tfmot.quantization.keras.quantize_annotate_layer(tf.keras.layers.UpSampling2D(), quantize_config=quantize_noop)(x)
-            x = tfmot.quantization.keras.quantize_annotate_layer(tf.keras.layers.Concatenate(), quantize_config=quantize_noop)([x, b3])
-        else:
-            x = tf.keras.layers.UpSampling2D()(x)
-            x = tf.keras.layers.Concatenate()([x, b3])
+        x = tf.keras.layers.UpSampling2D()(x)
+        x = tf.keras.layers.Concatenate()([x, b3])
     else:
         x = b3
     block_args = block_args._replace(input_filters=128)
@@ -315,12 +304,8 @@ def yolov3_body(inputs, model_name, num_anchors, **kwargs):
                                                momentum=0.9),
             tf.keras.layers.ReLU(6.))(x)
 
-        if(quantize):
-            x = downsample_layer(x)
-            x = tfmot.quantization.keras.quantize_annotate_layer(tf.keras.layers.Concatenate(), quantize_config=quantize_noop)([x, c2])
-        else:
-            x = downsample_layer(x)
-            x = tf.keras.layers.Concatenate()([x, c2])
+        x = downsample_layer(x)
+        x = tf.keras.layers.Concatenate()([x, c2])
         block_args = block_args._replace(input_filters=256)
         x, y2 = make_last_layers_efficientnet_lite(x, block_args, global_params, quantize=quantize)
         x = compose(
@@ -332,50 +317,27 @@ def yolov3_body(inputs, model_name, num_anchors, **kwargs):
                                                momentum=0.9),
             tf.keras.layers.ReLU(6.))(x)
 
-        if(quantize):
-            x = downsample_layer(x)
-            x = tfmot.quantization.keras.quantize_annotate_layer(tf.keras.layers.Concatenate(), quantize_config=quantize_noop)([x, c1])
-        else:
-            x = downsample_layer(x)
-            x = tf.keras.layers.Concatenate()([x, c1])
+        x = downsample_layer(x)
+        x = tf.keras.layers.Concatenate()([x, c1])
         block_args = block_args._replace(input_filters=512)
         x, y1 = make_last_layers_efficientnet_lite(x, block_args, global_params, quantize=quantize)
 
+    y1 = tf.keras.layers.Lambda(lambda y: tf.reshape(y, [
+    tf.shape(y)[0], tf.shape(y)[1],
+    tf.shape(y)[2], num_anchors, num_classes + 5
+    ]),
+    name='y1')(y1)
 
-    if(quantize):
-        y1 = tfmot.quantization.keras.quantize_annotate_layer(tf.keras.layers.Lambda(lambda y: tf.reshape(y, [
-            tf.shape(y)[0], tf.shape(y)[1],
-            tf.shape(y)[2], num_anchors, num_classes + 5
-        ]),
-                                    name='y1'), quantize_config=quantize_noop)(y1)
-
-        y2 = tfmot.quantization.keras.quantize_annotate_layer(tf.keras.layers.Lambda(lambda y: tf.reshape(y, [
-            tf.shape(y)[0], tf.shape(y)[1],
-            tf.shape(y)[2], num_anchors, num_classes + 5
-        ]),
-                                    name='y2'), quantize_config=quantize_noop)(y2)
-        y3 = tfmot.quantization.keras.quantize_annotate_layer(tf.keras.layers.Lambda(lambda y: tf.reshape(y, [
-            tf.shape(y)[0], tf.shape(y)[1],
-            tf.shape(y)[2], num_anchors, num_classes + 5
-        ]),
-                                    name='y3'), quantize_config=quantize_noop)(y3)
-    else:
-        y1 = tf.keras.layers.Lambda(lambda y: tf.reshape(y, [
-        tf.shape(y)[0], tf.shape(y)[1],
-        tf.shape(y)[2], num_anchors, num_classes + 5
-        ]),
-        name='y1')(y1)
-
-        y2 = tf.keras.layers.Lambda(lambda y: tf.reshape(y, [
-        tf.shape(y)[0], tf.shape(y)[1],
-        tf.shape(y)[2], num_anchors, num_classes + 5
-        ]),
-        name='y2')(y2)
-        y3 = tf.keras.layers.Lambda(lambda y: tf.reshape(y, [
-        tf.shape(y)[0], tf.shape(y)[1],
-        tf.shape(y)[2], num_anchors, num_classes + 5
-        ]),
-        name='y3')(y3)
+    y2 = tf.keras.layers.Lambda(lambda y: tf.reshape(y, [
+    tf.shape(y)[0], tf.shape(y)[1],
+    tf.shape(y)[2], num_anchors, num_classes + 5
+    ]),
+    name='y2')(y2)
+    y3 = tf.keras.layers.Lambda(lambda y: tf.reshape(y, [
+    tf.shape(y)[0], tf.shape(y)[1],
+    tf.shape(y)[2], num_anchors, num_classes + 5
+    ]),
+    name='y3')(y3)
 
     return AdvLossModel(backbone.inputs, [y1, y2, y3])
 

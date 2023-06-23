@@ -5,7 +5,7 @@ from __future__ import print_function
 import tensorflow as tf
 import neural_structured_learning as nsl
 import numpy as np
-
+from tqdm import tqdm
 
 class AdvLossModel(tf.keras.Model):
     def _compute_total_loss(self, y_trues, y_preds, sample_weights=None):
@@ -51,10 +51,11 @@ class AdvLossModel(tf.keras.Model):
         loss = self._compute_total_loss(y_trues, y_preds)
         return loss
 
-    @tf.function
+    # @tf.function
     def _distributed_epoch(self, dataset, step):
         total_loss = 0.0
         num_batches = 0.0
+
         for batch in dataset:
             if self.writer is not None:
                 with self.writer.as_default():
@@ -62,7 +63,7 @@ class AdvLossModel(tf.keras.Model):
                         "Training data",
                         tf.cast(batch[0] * 255, tf.uint8),
                         max_outputs=8)
-            per_replica_loss = self._distribution_strategy.experimental_run_v2(
+            per_replica_loss = self._distribution_strategy.run(
                 self._train_step if step else self._val_step, args=(batch,))
             total_loss += self._distribution_strategy.reduce(
                 tf.distribute.ReduceOp.SUM, per_replica_loss,
@@ -116,8 +117,8 @@ class AdvLossModel(tf.keras.Model):
             logs['val_loss'] = val_loss
             train_losses.append(train_loss.numpy())
             val_losses.append(val_loss.numpy())
-            print(train_losses)
-            print(val_losses)
+            print(train_losses[-1])
+            print(val_losses[-1])
             for callback in callbacks:
                 callback.on_epoch_end(epoch, logs)
 

@@ -1,8 +1,0 @@
-numpy
-tensorflow
-tensorflow_model_optimization
-neural_structured_learning==1.1.0
-matplotlib
-absl_py
-Pillow
-opencv-python

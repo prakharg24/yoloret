@@ -25,27 +25,6 @@ import math
 import numpy as np
 from six.moves import xrange  # pylint: disable=redefined-builtin
 import tensorflow as tf
-import tensorflow_model_optimization as tfmot
-class NoOpQuantizeConfig(tfmot.quantization.keras.QuantizeConfig):
-    def get_weights_and_quantizers(self, layer):
-        return []
-
-    def get_activations_and_quantizers(self, layer):
-        return []
-
-    def set_quantize_weights(self, layer, quantize_weights):
-        pass
-
-    def set_quantize_activations(self, layer, quantize_activations):
-        pass
-
-    def get_output_quantizers(self, layer):
-        return []
-
-    def get_config(self):
-        return {}
-
-quantize_noop = NoOpQuantizeConfig()
 
 __all__ = [
     'EfficientNet', 'EfficientNetB0', 'EfficientNetB1', 'EfficientNetB2',
@@ -435,10 +414,7 @@ def SEBlock(block_args, global_params, quantize=False):
 
     def block(inputs):
         x = inputs
-        if(quantize):
-            x = tfmot.quantization.keras.quantize_annotate_layer(Mean(spatial_dims), quantize_config=quantize_noop)(x)
-        else:
-            x = Mean(spatial_dims)(x)
+        x = Mean(spatial_dims)(x)
         #x = tf.keras.layers.Lambda(lambda a: tf.reduce_mean(a, axis=spatial_dims, keepdims=True))(x)
         x = tf.keras.layers.Conv2D(num_reduced_filters,
                                    kernel_size=[1, 1],
@@ -446,10 +422,7 @@ def SEBlock(block_args, global_params, quantize=False):
                                    kernel_initializer=conv_kernel_initializer,
                                    padding='same',
                                    use_bias=True)(x)
-        if(quantize):
-            x = tfmot.quantization.keras.quantize_annotate_layer(Swish(), quantize_config=quantize_noop)(x)
-        else:
-            x = Swish()(x)
+        x = Swish()(x)
 
         # Excite
         x = tf.keras.layers.Conv2D(filters,
@@ -458,12 +431,8 @@ def SEBlock(block_args, global_params, quantize=False):
                                    kernel_initializer=conv_kernel_initializer,
                                    padding='same',
                                    use_bias=True,)(x)
-        if(quantize):
-            x = tfmot.quantization.keras.quantize_annotate_layer(tf.keras.layers.Activation(activation='sigmoid'), quantize_config=quantize_noop)(x)
-            out = tfmot.quantization.keras.quantize_annotate_layer(tf.keras.layers.Multiply(), quantize_config=quantize_noop)([x, inputs])
-        else:
-            x = tf.keras.layers.Activation(activation='sigmoid')(x)
-            out = tf.keras.layers.Multiply()([x, inputs])
+        x = tf.keras.layers.Activation(activation='sigmoid')(x)
+        out = tf.keras.layers.Multiply()([x, inputs])
         return out
 
     return block
@@ -483,23 +452,14 @@ def SpatialBlock(quantize=False):
         x = tf.image.resize(x, [newh, neww])
         x = tf.keras.layers.Lambda(lambda y: tf.reshape(y, [-1, newh*neww]))(x)
         x = tf.keras.layers.Dense(hidden_channels, use_bias=True)(x)
-        if(quantize):
-            x = tfmot.quantization.keras.quantize_annotate_layer(Swish(), quantize_config=quantize_noop)(x)
-        else:
-            x = Swish()(x)
+        x = Swish()(x)
         x = tf.keras.layers.Dense(newh*neww, use_bias=True)(x)
-        if(quantize):
-            x = tfmot.quantization.keras.quantize_annotate_layer(tf.keras.layers.Activation(activation='sigmoid'), quantize_config=quantize_noop)(x)
-        else:
-            x = tf.keras.layers.Activation(activation='sigmoid')(x)
+        x = tf.keras.layers.Activation(activation='sigmoid')(x)
 
         x = tf.keras.layers.Lambda(lambda y: tf.reshape(y, [-1, newh, neww, 1]))(x)
         x = tf.image.resize(x, [h, w])
 
-        if(quantize):
-            out = tfmot.quantization.keras.quantize_annotate_layer(tf.keras.layers.Multiply(), quantize_config=quantize_noop)([x, inputs])
-        else:
-            out = tf.keras.layers.Multiply()([x, inputs])
+        out = tf.keras.layers.Multiply()([x, inputs])
         return out
 
     return block
@@ -533,10 +493,7 @@ def MBConvBlock(block_args, global_params, drop_connect_rate=None, quantize=Fals
                 axis=channel_axis,
                 momentum=batch_norm_momentum,
                 epsilon=batch_norm_epsilon)(x)
-            if(quantize):
-                x = tfmot.quantization.keras.quantize_annotate_layer(Swish(), quantize_config=quantize_noop)(x)
-            else:
-                x = Swish()(x)
+            x = Swish()(x)
 
         else:
             x = inputs
@@ -550,10 +507,7 @@ def MBConvBlock(block_args, global_params, drop_connect_rate=None, quantize=Fals
         x = tf.keras.layers.BatchNormalization(axis=channel_axis,
                                                momentum=batch_norm_momentum,
                                                epsilon=batch_norm_epsilon)(x)
-        if(quantize):
-            x = tfmot.quantization.keras.quantize_annotate_layer(Swish(), quantize_config=quantize_noop)(x)
-        else:
-            x = Swish()(x)
+        x = Swish()(x)
 
         if has_se:
             x = SEBlock(block_args, global_params, quantize=quantize)(x)
@@ -610,10 +564,7 @@ def MBConvBlockSpatial(block_args, global_params, drop_connect_rate=None, quanti
                 axis=channel_axis,
                 momentum=batch_norm_momentum,
                 epsilon=batch_norm_epsilon)(x)
-            if(quantize):
-                x = tfmot.quantization.keras.quantize_annotate_layer(Swish(), quantize_config=quantize_noop)(x)
-            else:
-                x = Swish()(x)
+            x = Swish()(x)
 
         else:
             x = inputs
@@ -627,10 +578,7 @@ def MBConvBlockSpatial(block_args, global_params, drop_connect_rate=None, quanti
         x = tf.keras.layers.BatchNormalization(axis=channel_axis,
                                                momentum=batch_norm_momentum,
                                                epsilon=batch_norm_epsilon)(x)
-        if(quantize):
-            x = tfmot.quantization.keras.quantize_annotate_layer(Swish(), quantize_config=quantize_noop)(x)
-        else:
-            x = Swish()(x)
+        x = Swish()(x)
 
         if has_se:
             xse = SEBlock(block_args, global_params, quantize=quantize)(x)
@@ -694,10 +642,7 @@ def EfficientNet(input_shape,
     x = tf.keras.layers.BatchNormalization(axis=channel_axis,
                                            momentum=batch_norm_momentum,
                                            epsilon=batch_norm_epsilon)(x)
-    if(quantize):
-        x = tfmot.quantization.keras.quantize_annotate_layer(Swish(), quantize_config=quantize_noop)(x)
-    else:
-        x = Swish()(x)
+    x = Swish()(x)
 
     # Blocks part
     block_idx = 1
@@ -741,10 +686,7 @@ def EfficientNet(input_shape,
     x = tf.keras.layers.BatchNormalization(axis=channel_axis,
                                            momentum=batch_norm_momentum,
                                            epsilon=batch_norm_epsilon)(x)
-    if(quantize):
-        x = tfmot.quantization.keras.quantize_annotate_layer(Swish(), quantize_config=quantize_noop)(x)
-    else:
-        x = Swish()(x)
+    x = Swish()(x)
 
     if include_top:
         x = tf.keras.layers.GlobalAveragePooling2D(

@@ -7,7 +7,6 @@ import numpy as np
 from PIL import Image, ImageFont, ImageDraw, ImageChops
 import cv2
 import tensorflow as tf
-import tensorflow_model_optimization as tfmot
 from yolo3.model import YoloEval, yolov3_body
 from yolo3.utils import letterbox_image, get_anchors, get_classes
 from yolo3.enums import BACKBONE
@@ -17,37 +16,36 @@ from typing import List, Tuple
 # from tensorflow_serving.apis import prediction_log_pb2, predict_pb2
 from functools import partial
 from tensorflow.python.compiler.tensorrt import trt_convert as trt
-from matplotlib import cm
 
 tf.keras.backend.set_learning_phase(0)
 zoom_ratio = (224*224)/(416*416)
 
-def compress_heatmap(inp, ref_image):
-
-    h, w = inp.shape[1], inp.shape[2]
-    upcut = int(6*(h/40))
-    downcut = h - upcut
-    # if(upcut==1):
-    #     upcut += 1
-    #     downcut -= 1
-    # print(upcut)
-    # print(downcut)
-    inp = inp.numpy()
-    inp = np.absolute(inp)
-    inp[:, :upcut, :, :] = 0.
-    inp[:, downcut:, :, :] = 0.
-    # inp = inp[:, :, :, 2]
-    inp = inp.max(axis=3)
-    inp = inp/np.max(inp)
-    inp = np.reshape(inp, (h, w))
-    print(inp.shape)
-    # if(upcut==2):
-    #     upcut -= 1
-    #     downcut += 1
-    inp = inp[upcut:downcut, :]
-
-    im = Image.fromarray(np.uint8(cm.hot(inp)*255))
-    return im
+# def compress_heatmap(inp, ref_image):
+#
+#     h, w = inp.shape[1], inp.shape[2]
+#     upcut = int(6*(h/40))
+#     downcut = h - upcut
+#     # if(upcut==1):
+#     #     upcut += 1
+#     #     downcut -= 1
+#     # print(upcut)
+#     # print(downcut)
+#     inp = inp.numpy()
+#     inp = np.absolute(inp)
+#     inp[:, :upcut, :, :] = 0.
+#     inp[:, downcut:, :, :] = 0.
+#     # inp = inp[:, :, :, 2]
+#     inp = inp.max(axis=3)
+#     inp = inp/np.max(inp)
+#     inp = np.reshape(inp, (h, w))
+#     print(inp.shape)
+#     # if(upcut==2):
+#     #     upcut -= 1
+#     #     downcut += 1
+#     inp = inp[upcut:downcut, :]
+#
+#     im = Image.fromarray(np.uint8(cm.hot(inp)*255))
+#     return im
 
 
 class YoloModel(tf.keras.Model):

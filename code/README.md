@@ -9,14 +9,18 @@
 Setup a tensorflow environment,
 
 ```
-conda create --name yoloret tensorflow-gpu==2.1.0
+conda create -n yoloret python=3.9
+conda install -c anaconda tensorflow-gpu
 conda activate yoloret
 ```
 
 Install additional packages
 
 ```
-conda install tensorflow_model_optimization neural_structured_learning matplotlib opencv-python
+conda install -c anaconda pillow
+conda install -c conda-forge opencv
+conda install tqdm
+pip install --upgrade neural_structured_learning
 ```
 
 --------------------
@@ -71,16 +75,11 @@ A trained detection model can be evaluated using the following code,
 python main.py --mode=MAP --model=<final checkpoint> --test_dataset=<test list> --classes_path=<class names list> --backbone=<MOBILENETV2x75|MOBILENETV2x14|EFFICIENTNETB3>
 ```
 
-We have provided a few model checkpoints for testing [here](). They can be used directly as follows
+We have provided a few model checkpoints in the repo for testing. They can be used directly as follows
 
 **MobileNetV2x0.75 (320x320) on VOC Dataset**
 ```
 python main.py --mode=MAP --model=checkpoints/mobilenetv2x75_320_voc.h5  --test_dataset=voc_test_4952.txt --backbone=MOBILENETV2x75 --classes_path=model_data/voc_classes.txt --input_size=320 --input_size=320
-```
-
-**MobileNetV2x1.4 (320x320) on VOC Dataset**
-```
-python main.py --mode=MAP --model=checkpoints/mobilenetv2x14_320_voc.h5  --test_dataset=voc_test_4952.txt --backbone=MOBILENETV2x14 --classes_path=model_data/voc_classes.txt --input_size=320 --input_size=320
 ```
 
 **EfficientNet-B3 (416x416) on COCO Dataset**

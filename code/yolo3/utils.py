@@ -395,7 +395,7 @@ class ModelFactory(object):
         #     model_body.layers[i].trainable = False
         # print('Freeze the first {} layers of total {} layers.'.format(
         #     freeze_layers, len(model_body.layers)))
-        for ele in model_body.layers:
-            print(ele.name, ele.trainable)
+        # for ele in model_body.layers:
+        #     print(ele.name, ele.trainable)
         # exit()
         return model_body

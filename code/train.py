@@ -12,7 +12,6 @@ from yolo3.utils import get_anchors, get_classes, ModelFactory
 from yolo3.train import AdvLossModel
 import os
 import numpy as np
-import matplotlib.pyplot as plt
 
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 
@@ -132,7 +131,7 @@ def train(FLAGS):
 
         if backbone == BACKBONE.MOBILENETV2x75:
             backbone_name = 'mobilenetv2x75'
-        elif backbone == BACKBONE.MobileNetV2x14:
+        elif backbone == BACKBONE.MOBILENETV2x14:
             backbone_name = 'mobilenetv2x14'
         elif backbone == BACKBONE.EFFICIENTNETB3:
             backbone_name = 'efficientnetb3'
@@ -167,7 +166,6 @@ def train(FLAGS):
         # exit()
         # tf.keras.utils.plot_model(model, to_file='model.png')
         # exit()
-        print(model.summary())
         # model.load_weights('logs/mobilenetv2_2020-04-09/ep042-loss13.528-val_loss13.472.h5')
         # exit()
         history_train, history_val = model.fit(epochs, [checkpoint, tensorboard, cos_lr_freeze], train_dataset, val_dataset)
