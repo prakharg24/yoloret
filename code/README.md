@@ -10,8 +10,8 @@ Setup a tensorflow environment,
 
 ```
 conda create -n yoloret python=3.9
-conda install -c anaconda tensorflow-gpu
 conda activate yoloret
+conda install -c anaconda tensorflow-gpu
 ```
 
 Install additional packages
